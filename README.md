@@ -28,7 +28,7 @@ This Proof of Concept (PoC) API, built with NestJS, demonstrates Single Sign-On 
 **Install passport dependencies:**
 
 ```bash
-$ npm install @nestjs/passport passport passport-google-oauth20
+$ npm install @nestjs/passport passport passport-google-oauth20 @nestjs/jwt passport-jwt     
 $ npm install --save-dev @types/passport-google-oauth20
 ```
 
