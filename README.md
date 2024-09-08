@@ -26,6 +26,73 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## SSO authentication step-by-step:
+
+**Install passport dependencies:**
+
+```bash
+$ npm install @nestjs/passport passport passport-google-oauth20
+$ npm install --save-dev @types/passport-google-oauth20
+```
+
+**Install express session dependency:**
+
+```bash
+$ npm install express-session
+$ npm install --save-dev @types/express-session
+```
+
+**Add the Following Code to `main.ts`:**
+
+   ```typescript
+   import * as session from 'express-session';
+   import * as passport from 'passport';
+   import { NestFactory } from '@nestjs/core';
+   import { AppModule } from './app.module';
+   import * as dotenv from 'dotenv';
+
+   // Load environment variables from .env file
+   dotenv.config();
+
+   async function bootstrap() {
+     // Create the NestJS application
+     const app = await NestFactory.create(AppModule);
+
+     // Configure session middleware
+     app.use(
+       session({
+         secret: process.env.SESSION_SECRET, // The secret key for sessions should be in the .env file
+         resave: false,
+         saveUninitialized: false,
+       }),
+     );
+
+     // Initialize Passport for authentication management
+     app.use(passport.initialize());
+     app.use(passport.session());
+
+     // Start the server on port 3000
+     await app.listen(3000);
+   }
+
+   bootstrap();
+```
+
+**Get your `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`:**
+1. Configure the Google API Console
+2. Go to the Google API Console.
+3. Create a new project or select an existing one.
+4. In the navigation pane, go to Credentials.
+5. Click Create Credentials > OAuth 2.0 Client IDs.
+6. Configure the information including the application name and redirect URIs (the redirect URI will be something like http://localhost:3000 during development).
+7. Take the provided Client ID and Client Secret or download the json with this informations.
+
+**Understanding Authorized URI for Redirect and Origin:**
+
+- **Origin URI**: The origin URI is the domain authorized to initiate Google authorization requests.
+- **Redirect URI**: The redirect URI is the URL where users will be redirected after successful authentication.
+
+
 ## Project setup
 
 ```bash
@@ -79,6 +146,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 - Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
 - Website - [https://nestjs.com](https://nestjs.com/)
 - Twitter - [@nestframework](https://twitter.com/nestframework)
+
 
 ## License
 
