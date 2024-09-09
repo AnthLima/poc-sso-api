@@ -3,17 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { ProtectedModule } from './protected/protected.module';
 @Module({
   imports: [
     AuthModule, 
     ConfigModule.forRoot(),
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
+    ProtectedModule
   ],
   controllers: [AppController],
   providers: [AppService],
