@@ -5,6 +5,7 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
+import { CacheMiddleware } from './cache-middleware/cache-middleware-strategy';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,7 +29,7 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-
+  app.use(CacheMiddleware);
   await app.listen(3000);
 }
 bootstrap();

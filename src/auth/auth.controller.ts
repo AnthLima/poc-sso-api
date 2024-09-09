@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
@@ -23,4 +23,18 @@ export class AuthController {
 
     return res.redirect('http://localhost:5173/login/success');
   }
+
+  @Post('logout')
+async logout(@Res({ passthrough: true }) res: Response) {
+  // Remover o cookie 'jwt'
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/',
+  });
+
+  // Responder ao cliente
+  res.status(200).json({ success: true, message: 'User logged out successfully' });
+}
 }
