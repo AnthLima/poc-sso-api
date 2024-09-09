@@ -32,10 +32,10 @@ $ npm install @nestjs/passport passport passport-google-oauth20 @nestjs/jwt pass
 $ npm install --save-dev @types/passport-google-oauth20
 ```
 
-**Install express session dependency:**
+**Install others dependencies:**
 
 ```bash
-$ npm install express-session
+$ npm install express-session @types/express cookie-parser cors
 $ npm install --save-dev @types/express-session
 ```
 
