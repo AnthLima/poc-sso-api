@@ -9,7 +9,7 @@ export class ProtectedController {
     const user = req.user;
 
     return {
-      message: 'Este é um endpoint protegido',
+      message: 'This endpoint is protected',
       user,
     };
   }
