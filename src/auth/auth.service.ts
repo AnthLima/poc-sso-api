@@ -10,7 +10,12 @@ export class AuthService {
   ) {}
 
   async generateJwt(user: any) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      picture: user.picture,
+    };
     const secret = this.configService.get<string>('JWT_SECRET');
     return {
       access_token: this.jwtService.sign(payload, { secret }),

@@ -5,8 +5,9 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth-strategy/jwt-auth-guard';
 export class ProtectedController {
   @Get('route')
   @UseGuards(JwtAuthGuard)
-  getProtectedData(@Req() req) {
+  getProtectedData(@Req() req: any) {
     const user = req.user;
+
     return {
       message: 'Este é um endpoint protegido',
       user,
