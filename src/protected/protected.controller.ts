@@ -1,0 +1,15 @@
+import { Controller, Get, UseGuards, Req } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth-strategy/jwt-auth-guard';
+
+@Controller('protected')
+export class ProtectedController {
+  @Get('route')
+  @UseGuards(JwtAuthGuard)
+  getProtectedData(@Req() req) {
+    const user = req.user;
+    return {
+      message: 'Este é um endpoint protegido',
+      user,
+    };
+  }
+}
