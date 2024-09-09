@@ -8,7 +8,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(configService: ConfigService ) {
         super({
             jwtFromRequest: ExtractJwt.fromExtractors([
-                JwtStrategy.extractJWT,
+                JwtStrategy.extractJWTIfExistsCookie,
                 ExtractJwt.fromAuthHeaderAsBearerToken(),
             ]),
             ignoreExpiration: false,
@@ -16,10 +16,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    private static extractJWT(req: Request | any): string | null {
-        console.log("REQ",req.cookies['jwt'])
-
-        return req.cookies['jwt'];
+    private static extractJWTIfExistsCookie(req: Request | any): string | null {
+        return req?.cookies?.jwt || null;
     }
 
     async validate(payload: any) {
