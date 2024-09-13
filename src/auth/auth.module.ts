@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt-auth-strategy/jwt-strategy';
 import { JwtAuthGuard } from './jwt-auth-strategy/jwt-auth-guard';
 import { GoogleStrategy } from './google-oauth-strategy/google.strategy';
+import { AzureADStrategy } from './azure-ad-auth-strategy/azure-ad-strategy';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { GoogleStrategy } from './google-oauth-strategy/google.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard, GoogleStrategy],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, GoogleStrategy, AzureADStrategy],
   exports: [JwtAuthGuard, AuthService, JwtModule],
 })
 export class AuthModule {}

@@ -89,6 +89,22 @@ $ npm install --save-dev @types/express-session
 - **Origin URI**: The origin URI is the domain authorized to initiate Google authorization requests.
 - **Redirect URI**: The redirect URI is the URL where users will be redirected after successful authentication.
 
+## Azure AD authentication step-by-step:
+
+**Install passport dependencies:**
+
+```bash
+$ npm install @nestjs/passport passport-azure-ad passport passport-jwt jsonwebtoken
+```
+
+**Configure local certificate for redirect URL of Azure AD:**
+
+```bash
+$ openssl req -nodes -new -x509 -keyout server.key -out server.cert
+```
+
+Ensure your URL of backend is "https://*"
+
 
 ## Project setup
 

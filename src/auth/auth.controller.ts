@@ -6,6 +6,7 @@ import { Response } from 'express';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  //Google SSO Authentication:
   @Get('google')
   @UseGuards(AuthGuard('google'))
   async googleAuth() {}
@@ -24,17 +25,35 @@ export class AuthController {
     return res.redirect('http://localhost:5173/login/success');
   }
 
-  @Post('logout')
-async logout(@Res({ passthrough: true }) res: Response) {
-  // Remover o cookie 'jwt'
-  res.clearCookie('jwt', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    path: '/',
-  });
+  //Azure AD authentication:
+  @Get('azure-ad')
+  @UseGuards(AuthGuard('azure-ad'))
+  async azureAdAuth() {}
 
-  // Responder ao cliente
-  res.status(200).json({ success: true, message: 'User logged out successfully' });
-}
+  @Post('azure-ad/callback')
+  @UseGuards(AuthGuard('azure-ad'))
+  async azureAdAuthRedirect(@Req() req: Request | any, @Res() res: Response) {
+    const jwt = await this.authService.generateJWTByAzureAd(req.user);
+
+    res.cookie('jwt', jwt.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+
+    return res.redirect('http://localhost:5173/login/success'); 
+  }
+
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+
+    res.clearCookie('jwt', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    res.status(200).json({ success: true, message: 'User logged out successfully' });
+  }
 }

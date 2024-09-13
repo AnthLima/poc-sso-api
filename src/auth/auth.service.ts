@@ -21,4 +21,15 @@ export class AuthService {
       access_token: this.jwtService.sign(payload, { secret }),
     };
   }
+
+  async generateJWTByAzureAd(user: any) {
+    const  payload = {
+      username: user.displayName,
+      email: user.emails[0],
+    };
+    const secret = this.configService.get<string>('JWT_SECRET');
+    return {
+      access_token: this.jwtService.sign(payload, { secret }),
+    };
+  }
 }
